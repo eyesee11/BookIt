@@ -1,11 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle, XCircle } from "lucide-react";
 import Header from "@/components/HeaderWithAuth";
 
-export default function ResultPage() {
+function ResultContent() {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
   const bookingId = searchParams.get("booking");
@@ -63,5 +64,19 @@ export default function ResultPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-yellow-400"></div>
+        </div>
+      }
+    >
+      <ResultContent />
+    </Suspense>
   );
 }
